@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vault Premiere</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;500&display=swap');
+
+body{
+margin:0;
+background:#0a0a0f;
+font-family:'Poppins',sans-serif;
+color:white;
+text-align:center;
+overflow-x:hidden;
+}
+
+/* INTRO */
+#intro{
+position:fixed;
+width:100%;
+height:100%;
+background:black;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:9999;
+animation:fadeOut 4s forwards;
+animation-delay:3s;
+}
+
+#intro h1{
+font-family:'Orbitron';
+letter-spacing:4px;
+animation:flicker 1.2s infinite;
+}
+
+@keyframes flicker{
+0%,18%,22%,25%,53%,57%,100%{opacity:1;}
+20%,24%,55%{opacity:.3;}
+}
+
+@keyframes fadeOut{
+to{opacity:0;visibility:hidden;}
+}
+
+/* Animated Borders */
+.side{
+position:fixed;
+background:linear-gradient(to bottom,transparent,crimson,transparent);
+animation:glow 3s infinite;
+opacity:.5;
+}
+.left{left:0;top:0;width:3px;height:100%;}
+.right{right:0;top:0;width:3px;height:100%;}
+.top{top:0;left:0;height:3px;width:100%;}
+.bottom{bottom:0;left:0;height:3px;width:100%;}
+
+@keyframes glow{
+0%{opacity:.2;}
+50%{opacity:1;}
+100%{opacity:.2;}
+}
+
+/* Background */
+.background{
+position:fixed;
+width:100%;
+height:100%;
+background:url('cover.jpg') center/cover no-repeat;
+filter:blur(40px) brightness(20%);
+z-index:-1;
+animation:zoom 20s infinite alternate;
+}
+
+@keyframes zoom{
+from{transform:scale(1);}
+to{transform:scale(1.1);}
+}
+
+/* Player */
+.player{padding-top:60px;}
+
+.cover-wrapper{
+position:relative;
+display:inline-block;
+}
+
+.cover-wrapper::before{
+content:"";
+position:absolute;
+width:260px;
+height:260px;
+border-radius:50%;
+background:radial-gradient(circle,crimson 0%,transparent 70%);
+filter:blur(40px);
+opacity:0;
+transition:.5s;
+z-index:-1;
+}
+
+.cover-wrapper.vibing::before{
+opacity:.6;
+animation:aura 1.2s infinite alternate;
+}
+
+@keyframes aura{
+from{transform:scale(1);}
+to{transform:scale(1.2);}
+}
+
+.cover{
+width:260px;
+border-radius:20px;
+transition:.4s;
+}
+
+.vibing .cover{
+animation:spin 8s linear infinite,beat .6s infinite ease-in-out;
+}
+
+@keyframes spin{
+from{transform:rotate(0deg);}
+to{transform:rotate(360deg);}
+}
+
+@keyframes beat{
+0%{transform:scale(1);}
+50%{transform:scale(1.05);}
+100%{transform:scale(1);}
+}
+
+button{
+padding:10px 20px;
+border:none;
+border-radius:30px;
+background:linear-gradient(45deg,crimson,red);
+color:white;
+cursor:pointer;
+margin:5px;
+transition:.3s;
+}
+
+button:hover{
+transform:scale(1.1);
+box-shadow:0 0 20px crimson;
+}
+
+.countdown{
+margin-top:15px;
+font-family:'Orbitron';
+color:#ff3b3b;
+}
+
+/* Modern Glass Card */
+.glass{
+background:rgba(255,255,255,.05);
+backdrop-filter:blur(12px);
+padding:20px;
+border-radius:20px;
+width:90%;
+max-width:400px;
+margin:20px auto;
+box-shadow:0 0 30px rgba(255,0,0,.2);
+}
+
+/* Modern Search Inputs */
+.input-box{
+position:relative;
+margin-top:10px;
+}
+
+.input-box input{
+width:75%;
+padding:12px 40px;
+border-radius:30px;
+border:none;
+outline:none;
+background:#111;
+color:white;
+}
+
+.input-box::before{
+content:"🔍";
+position:absolute;
+left:12px;
+top:8px;
+font-size:18px;
+opacity:.6;
+}
+
+/* Progress */
+.progress-container{
+width:80%;
+margin:15px auto;
+}
+
+input[type=range]{
+width:100%;
+accent-color:crimson;
+}
+
+/* Extra Songs Section */
+.extra-section{
+margin-top:40px;
+padding:20px;
+border-top:1px solid rgba(255,255,255,.1);
+}
+
+.song-btn{
+background:#111;
+border:1px solid crimson;
+}
+
+.song-btn.active{
+background:crimson;
+}
+
+/* Chat Modern */
+.chat{
+margin-top:20px;
+}
+
+.chat-messages{
+height:120px;
+overflow-y:auto;
+background:#111;
+padding:10px;
+border-radius:15px;
+text-align:left;
+font-size:13px;
+margin-bottom:10px;
+}
+
+.chat-messages div{
+margin-bottom:6px;
+padding:6px 10px;
+background:rgba(255,0,0,.2);
+border-radius:10px;
+animation:slide .3s ease;
+}
+
+@keyframes slide{
+from{opacity:0;transform:translateX(-10px);}
+to{opacity:1;transform:translateX(0);}
+}
+</style>
+</head>
+
+<body>
+
+<div id="intro"><h1>INITIALIZING VAULT...</h1></div>
+<div class="side left"></div>
+<div class="side right"></div>
+<div class="side top"></div>
+<div class="side bottom"></div>
+<div class="background"></div>
+
+<div class="player">
+
+<div class="cover-wrapper" id="coverWrapper">
+<img src="cover.jpg" class="cover" id="cover">
+</div>
+
+<h2>Main Premiere Track</h2>
+<div class="countdown" id="countdown"></div>
+
+<!-- PASSWORD LOCK SECTION -->
+<div class="glass" id="passwordSection">
+<p>Question: What is the nickname of Rohit?</p>
+<div class="input-box">
+<input type="password" id="passInput" placeholder="Type your answer...">
+</div>
+<button onclick="checkPass()">Unlock</button>
+<p id="wrong"></p>
+</div>
+
+<!-- MAIN PLAYER -->
+<div id="mainPlayer" style="display:none;">
+<button onclick="togglePlay()" id="playBtn">▶ Play</button>
+
+<div class="progress-container">
+<input type="range" id="progress" value="0">
+</div>
+</div>
+
+<!-- PUBLIC EXTRA SONGS -->
+<div class="extra-section">
+<h3>🎵 Extra Tracks</h3>
+<button class="song-btn" onclick="loadSong('song1.mp3',this)">Track 2</button>
+<button class="song-btn" onclick="loadSong('song2.mp3',this)">Track 3</button>
+<button class="song-btn" onclick="loadSong('song3.mp3',this)">Track 4</button>
+</div>
+
+<!-- MODERN CHAT -->
+<div class="glass chat">
+<h3>Live Chat</h3>
+<div class="chat-messages" id="chatBox"></div>
+<div class="input-box">
+<input type="text" id="chatInput" placeholder="Search... I mean... type message">
+</div>
+<button onclick="sendMsg()">Send</button>
+</div>
+
+<audio id="audio" controlsList="nodownload">
+<source src="is-this-your-way.mp3" type="audio/mpeg">
+</audio>
+
+</div>
+
+<script>
+const launchDate=new Date("March 22, 2026 22:00:00").getTime();
+const correctPass="kuppi";
+const audio=document.getElementById("audio");
+const playBtn=document.getElementById("playBtn");
+const coverWrapper=document.getElementById("coverWrapper");
+const progress=document.getElementById("progress");
+
+audio.style.display="none";
+
+/* Countdown */
+const timer=setInterval(()=>{
+const now=new Date().getTime();
+const distance=launchDate-now;
+if(distance>0){
+const d=Math.floor(distance/(1000*60*60*24));
+const h=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+const m=Math.floor((distance%(1000*60*60))/(1000*60));
+const s=Math.floor((distance%(1000*60))/1000);
+document.getElementById("countdown").innerHTML=d+"d "+h+"h "+m+"m "+s+"s";
+}else{
+clearInterval(timer);
+document.getElementById("countdown").innerHTML="🔥 It's Live 🔥";
+}
+},1000);
+
+/* Password */
+function checkPass(){
+if(document.getElementById("passInput").value.toLowerCase()===correctPass){
+document.getElementById("passwordSection").style.display="none";
+document.getElementById("mainPlayer").style.display="block";
+audio.style.display="block";
+}else{
+document.getElementById("wrong").innerHTML="Wrong answer";
+}
+}
+
+/* Play */
+function togglePlay(){
+if(audio.paused){
+audio.play();
+playBtn.innerHTML="⏸ Pause";
+coverWrapper.classList.add("vibing");
+}else{
+audio.pause();
+playBtn.innerHTML="▶ Play";
+coverWrapper.classList.remove("vibing");
+}
+}
+
+/* Progress */
+audio.addEventListener("timeupdate",()=>{
+progress.value=audio.currentTime;
+});
+progress.addEventListener("input",()=>{
+audio.currentTime=progress.value;
+});
+
+/* Extra Songs */
+function loadSong(src,btn){
+audio.src=src;
+audio.load();
+audio.play();
+coverWrapper.classList.add("vibing");
+document.querySelectorAll(".song-btn").forEach(b=>b.classList.remove("active"));
+btn.classList.add("active");
+}
+
+/* Chat */
+function sendMsg(){
+const input=document.getElementById("chatInput");
+if(input.value.trim()==="")return;
+const div=document.createElement("div");
+div.textContent=input.value;
+document.getElementById("chatBox").appendChild(div);
+input.value="";
+}
+</script>
+
+</body>
+</html>
