@@ -10,22 +10,22 @@ const playlist = [
     {
         title: "Vaporwave Lo-Fi Node",
         artist: "Slowed + Low-Pass FX",
-        audio: "is-this-your-way.mp3",
-        cover: "cover.jpg",
+        audio: "song1.mp3",
+        cover: "song1.png",
         mode: "vaporwave"
     },
     {
         title: "Cosmic Reverb Node",
         artist: "Delay + Spacious Echo",
-        audio: "is-this-your-way.mp3",
-        cover: "cover.jpg",
+        audio: "song2.mp3",
+        cover: "song2.png",
         mode: "reverb"
     },
     {
         title: "Sub-Bass Master Node",
         artist: "Extra Heavy Lows (+15dB)",
-        audio: "is-this-your-way.mp3",
-        cover: "cover.jpg",
+        audio: "song3.mp3",
+        cover: "song3.png",
         mode: "bassboost"
     }
 ];
@@ -967,4 +967,3 @@ function addComment(user, text) {
 function scrollChatToBottom() {
     chatMessagesBox.scrollTop = chatMessagesBox.scrollHeight;
 }
-
