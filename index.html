@@ -1,392 +1,201 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vault Premiere</title>
-
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;500&display=swap');
-
-body{
-margin:0;
-background:#0a0a0f;
-font-family:'Poppins',sans-serif;
-color:white;
-text-align:center;
-overflow-x:hidden;
-}
-
-/* INTRO */
-#intro{
-position:fixed;
-width:100%;
-height:100%;
-background:black;
-display:flex;
-justify-content:center;
-align-items:center;
-z-index:9999;
-animation:fadeOut 4s forwards;
-animation-delay:3s;
-}
-
-#intro h1{
-font-family:'Orbitron';
-letter-spacing:4px;
-animation:flicker 1.2s infinite;
-}
-
-@keyframes flicker{
-0%,18%,22%,25%,53%,57%,100%{opacity:1;}
-20%,24%,55%{opacity:.3;}
-}
-
-@keyframes fadeOut{
-to{opacity:0;visibility:hidden;}
-}
-
-/* Animated Borders */
-.side{
-position:fixed;
-background:linear-gradient(to bottom,transparent,crimson,transparent);
-animation:glow 3s infinite;
-opacity:.5;
-}
-.left{left:0;top:0;width:3px;height:100%;}
-.right{right:0;top:0;width:3px;height:100%;}
-.top{top:0;left:0;height:3px;width:100%;}
-.bottom{bottom:0;left:0;height:3px;width:100%;}
-
-@keyframes glow{
-0%{opacity:.2;}
-50%{opacity:1;}
-100%{opacity:.2;}
-}
-
-/* Background */
-.background{
-position:fixed;
-width:100%;
-height:100%;
-background:url('cover.jpg') center/cover no-repeat;
-filter:blur(40px) brightness(20%);
-z-index:-1;
-animation:zoom 20s infinite alternate;
-}
-
-@keyframes zoom{
-from{transform:scale(1);}
-to{transform:scale(1.1);}
-}
-
-/* Player */
-.player{padding-top:60px;}
-
-.cover-wrapper{
-position:relative;
-display:inline-block;
-}
-
-.cover-wrapper::before{
-content:"";
-position:absolute;
-width:260px;
-height:260px;
-border-radius:50%;
-background:radial-gradient(circle,crimson 0%,transparent 70%);
-filter:blur(40px);
-opacity:0;
-transition:.5s;
-z-index:-1;
-}
-
-.cover-wrapper.vibing::before{
-opacity:.6;
-animation:aura 1.2s infinite alternate;
-}
-
-@keyframes aura{
-from{transform:scale(1);}
-to{transform:scale(1.2);}
-}
-
-.cover{
-width:260px;
-border-radius:20px;
-transition:.4s;
-}
-
-.vibing .cover{
-animation:spin 8s linear infinite,beat .6s infinite ease-in-out;
-}
-
-@keyframes spin{
-from{transform:rotate(0deg);}
-to{transform:rotate(360deg);}
-}
-
-@keyframes beat{
-0%{transform:scale(1);}
-50%{transform:scale(1.05);}
-100%{transform:scale(1);}
-}
-
-button{
-padding:10px 20px;
-border:none;
-border-radius:30px;
-background:linear-gradient(45deg,crimson,red);
-color:white;
-cursor:pointer;
-margin:5px;
-transition:.3s;
-}
-
-button:hover{
-transform:scale(1.1);
-box-shadow:0 0 20px crimson;
-}
-
-.countdown{
-margin-top:15px;
-font-family:'Orbitron';
-color:#ff3b3b;
-}
-
-/* Modern Glass Card */
-.glass{
-background:rgba(255,255,255,.05);
-backdrop-filter:blur(12px);
-padding:20px;
-border-radius:20px;
-width:90%;
-max-width:400px;
-margin:20px auto;
-box-shadow:0 0 30px rgba(255,0,0,.2);
-}
-
-/* Modern Search Inputs */
-.input-box{
-position:relative;
-margin-top:10px;
-}
-
-.input-box input{
-width:75%;
-padding:12px 40px;
-border-radius:30px;
-border:none;
-outline:none;
-background:#111;
-color:white;
-}
-
-.input-box::before{
-content:"🔍";
-position:absolute;
-left:12px;
-top:8px;
-font-size:18px;
-opacity:.6;
-}
-
-/* Progress */
-.progress-container{
-width:80%;
-margin:15px auto;
-}
-
-input[type=range]{
-width:100%;
-accent-color:crimson;
-}
-
-/* Extra Songs Section */
-.extra-section{
-margin-top:40px;
-padding:20px;
-border-top:1px solid rgba(255,255,255,.1);
-}
-
-.song-btn{
-background:#111;
-border:1px solid crimson;
-}
-
-.song-btn.active{
-background:crimson;
-}
-
-/* Chat Modern */
-.chat{
-margin-top:20px;
-}
-
-.chat-messages{
-height:120px;
-overflow-y:auto;
-background:#111;
-padding:10px;
-border-radius:15px;
-text-align:left;
-font-size:13px;
-margin-bottom:10px;
-}
-
-.chat-messages div{
-margin-bottom:6px;
-padding:6px 10px;
-background:rgba(255,0,0,.2);
-border-radius:10px;
-animation:slide .3s ease;
-}
-
-@keyframes slide{
-from{opacity:0;transform:translateX(-10px);}
-to{opacity:1;transform:translateX(0);}
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Is ThIS YoUr WaY - An interactive personal 4-song player vault featuring WebGL 3D effects, sound wave holograms, and liquid glass morphic interfaces.">
+    <title>Is ThIS YoUr WaY | Interactive Hologram Vault</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<div id="intro"><h1>INITIALIZING VAULT...</h1></div>
-<div class="side left"></div>
-<div class="side right"></div>
-<div class="side top"></div>
-<div class="side bottom"></div>
-<div class="background"></div>
+    <!-- Full-Screen 3D WebGL Canvas Backdrop -->
+    <div id="three-container"></div>
 
-<div class="player">
+    <!-- Liquid Background Blobs -->
+    <div class="liquid-blob blob-1"></div>
+    <div class="liquid-blob blob-2"></div>
+    <div class="liquid-blob blob-3"></div>
+    <div class="background-grid"></div>
 
-<div class="cover-wrapper" id="coverWrapper">
-<img src="cover.jpg" class="cover" id="cover">
-</div>
+    <!-- 1. INTRO SYSTEM LOADER -->
+    <div id="intro">
+        <div class="intro-logo">Is ThIS YoUr WaY</div>
+        <div class="intro-loader-bar">
+            <div class="intro-loader-progress"></div>
+        </div>
+    </div>
 
-<h2>Main Premiere Track</h2>
-<div class="countdown" id="countdown"></div>
+    <!-- 2. VAULT ENCRYPTION LOCK SCREEN -->
+    <section id="vault-screen">
+        <div class="vault-container">
+            <div class="vault-header">
+                <h1>VAULT PREMIERE</h1>
+                <p>Secure Decryption Node</p>
+            </div>
+            <div class="vault-prompt">
+                <strong>Access Question:</strong> What is the nickname of Rohit?
+            </div>
+            <div class="vault-input-group">
+                <input type="password" id="pass-input" placeholder="Type decryption key..." autocomplete="off">
+            </div>
+            <button class="vault-btn" onclick="checkPasscode()">Unlock Node</button>
+            <div class="vault-error" id="vault-error"></div>
+        </div>
+    </section>
 
-<!-- PASSWORD LOCK SECTION -->
-<div class="glass" id="passwordSection">
-<p>Question: What is the nickname of Rohit?</p>
-<div class="input-box">
-<input type="password" id="passInput" placeholder="Type your answer...">
-</div>
-<button onclick="checkPass()">Unlock</button>
-<p id="wrong"></p>
-</div>
+    <!-- 3. TOP NAVBAR (Hidden initially) -->
+    <nav class="top-nav" id="top-navbar">
+        <div class="brand-title">Is ThIS YoUr WaY</div>
+        <div class="nav-controls">
+            <div id="theme-badge" class="theme-badge">Landscape Gold</div>
+            <div class="theme-toggle-container">
+                <input type="checkbox" id="theme-toggle-checkbox" class="theme-toggle-checkbox" onclick="toggleLightMode()">
+                <label for="theme-toggle-checkbox" class="theme-toggle-label">
+                    <span class="theme-toggle-ball">
+                        <span class="toggle-sun-icon">☀️</span>
+                        <span class="toggle-moon-icon">🌙</span>
+                    </span>
+                </label>
+            </div>
+            <div class="vault-status">
+                <span class="status-indicator"></span>
+                Stage Active
+            </div>
+        </div>
+    </nav>
 
-<!-- MAIN PLAYER -->
-<div id="mainPlayer" style="display:none;">
-<button onclick="togglePlay()" id="playBtn">▶ Play</button>
+    <!-- 4. MAIN WORKSPACE / OVERLAY INTERFACE -->
+    <main id="music-workspace">
+        
+        <!-- Left Column: Glass Control Console -->
+        <section class="left-pane">
+            <div class="card-perspective-container">
+                <div class="player-card">
+                    
+                    <!-- Tactile Display Overlay -->
+                    <div class="console-display">
+                        <div class="display-ring"></div>
+                        <div class="display-freq-line"></div>
+                        <span class="display-status">SPECTRUM RENDER ACTIVE</span>
+                    </div>
 
-<div class="progress-container">
-<input type="range" id="progress" value="0">
-</div>
-</div>
+                    <!-- Song Metadata -->
+                    <div class="track-meta-section">
+                        <h2 id="track-title" class="current-track-title">Is ThIS YoUr WaY</h2>
+                        <p id="track-artist" class="current-track-artist">Rohit</p>
+                    </div>
 
-<!-- PUBLIC EXTRA SONGS -->
-<div class="extra-section">
-<h3>🎵 Extra Tracks</h3>
-<button class="song-btn" onclick="loadSong('song1.mp3',this)">Track 2</button>
-<button class="song-btn" onclick="loadSong('song2.mp3',this)">Track 3</button>
-<button class="song-btn" onclick="loadSong('song3.mp3',this)">Track 4</button>
-</div>
+                    <!-- Timeline Seek Slider (Tactile Neumorphic) -->
+                    <div class="seek-controls">
+                        <div class="timeline">
+                            <span id="current-time">0:00</span>
+                            <span id="total-duration">0:00</span>
+                        </div>
+                        <div class="progress-bar-container" id="progress-container">
+                            <div class="progress-fill" id="progress-fill">
+                                <div class="progress-handle"></div>
+                            </div>
+                        </div>
+                    </div>
 
-<!-- MODERN CHAT -->
-<div class="glass chat">
-<h3>Live Chat</h3>
-<div class="chat-messages" id="chatBox"></div>
-<div class="input-box">
-<input type="text" id="chatInput" placeholder="Search... I mean... type message">
-</div>
-<button onclick="sendMsg()">Send</button>
-</div>
+                    <!-- Neumorphic Control Buttons -->
+                    <div class="control-buttons-row">
+                        <button class="btn-neumorphic btn-small" id="shuffle-btn" onclick="toggleShuffle()" title="Shuffle">🔀</button>
+                        <button class="btn-neumorphic btn-medium" id="prev-btn" onclick="prevTrack()" title="Previous">⏮</button>
+                        <button class="btn-neumorphic btn-large btn-play-pause" id="play-btn" onclick="togglePlay()" title="Play / Pause">▶</button>
+                        <button class="btn-neumorphic btn-medium" id="next-btn" onclick="nextTrack()" title="Next">⏭</button>
+                        <button class="btn-neumorphic btn-small" id="repeat-btn" onclick="toggleRepeat()" title="Repeat">🔁</button>
+                    </div>
 
-<audio id="audio" controlsList="nodownload">
-<source src="is-this-your-way.mp3" type="audio/mpeg">
-</audio>
+                    <!-- Secondary Settings and FX Panel -->
+                    <div class="secondary-actions">
+                        <div class="vibe-selector-wrapper">
+                            <label for="vibe-select" class="vibe-label">Hologram Vibe:</label>
+                            <select id="vibe-select" class="vibe-select" title="Change visualizer theme">
+                                <option value="neon-wave">Neon Wave</option>
+                                <option value="crimson" selected>Crimson Pulse</option>
+                                <option value="cyber">Cyber Grid</option>
+                                <option value="gold">Liquid Gold</option>
+                            </select>
+                        </div>
+                        <div class="special-fx-wrapper">
+                            <button class="btn-neumorphic btn-small" id="volume-btn" onclick="toggleMute()" title="Mute / Unmute">🔊</button>
+                            <button class="btn-fx-toggle" id="bass-btn" onclick="toggleBassBoost()">Bass Boost</button>
+                        </div>
+                    </div>
 
-</div>
+                </div>
+            </div>
+        </section>
 
-<script>
-const launchDate=new Date("March 22, 2026 22:00:00").getTime();
-const correctPass="kuppi";
-const audio=document.getElementById("audio");
-const playBtn=document.getElementById("playBtn");
-const coverWrapper=document.getElementById("coverWrapper");
-const progress=document.getElementById("progress");
+        <!-- Right Column: Glass Queue & Chat Guestbook -->
+        <section class="right-pane">
+            
+            <!-- Glassmorphic Playlist Panel -->
+            <div class="pane-section glass-panel">
+                <h3 class="pane-title">🎵 Audio Mix Nodes <span>4 profiles</span></h3>
+                <div class="playlist-list">
+                    <div class="playlist-item active" onclick="loadTrack(0)">
+                        <img src="cover.jpg" class="playlist-item-art" alt="Original Mix Cover">
+                        <div class="playlist-item-meta">
+                            <h4 class="playlist-item-title">Original Master Node</h4>
+                            <p class="playlist-item-artist">Direct Master Audio</p>
+                        </div>
+                        <span class="playlist-item-indicator">⚡</span>
+                    </div>
+                    <div class="playlist-item" onclick="loadTrack(1)">
+                        <img src="cover.jpg" class="playlist-item-art" alt="Vaporwave Cover">
+                        <div class="playlist-item-meta">
+                            <h4 class="playlist-item-title">Vaporwave Lo-Fi Node</h4>
+                            <p class="playlist-item-artist">Slowed + Low-Pass FX</p>
+                        </div>
+                        <span class="playlist-item-indicator">▶</span>
+                    </div>
+                    <div class="playlist-item" onclick="loadTrack(2)">
+                        <img src="cover.jpg" class="playlist-item-art" alt="Cosmic Reverb Cover">
+                        <div class="playlist-item-meta">
+                            <h4 class="playlist-item-title">Cosmic Reverb Node</h4>
+                            <p class="playlist-item-artist">Delay + Spacious Echo</p>
+                        </div>
+                        <span class="playlist-item-indicator">▶</span>
+                    </div>
+                    <div class="playlist-item" onclick="loadTrack(3)">
+                        <img src="cover.jpg" class="playlist-item-art" alt="Bass Boost Cover">
+                        <div class="playlist-item-meta">
+                            <h4 class="playlist-item-title">Sub-Bass Master Node</h4>
+                            <p class="playlist-item-artist">Extra Heavy Lows (+15dB)</p>
+                        </div>
+                        <span class="playlist-item-indicator">▶</span>
+                    </div>
+                </div>
+            </div>
 
-audio.style.display="none";
+            <!-- Glassmorphic Chat Panel -->
+            <div class="pane-section glass-panel">
+                <h3 class="pane-title">💬 Live Console Chat <span>Secure Room</span></h3>
+                <div class="chat-container">
+                    <div class="chat-messages-box" id="chat-messages-box">
+                        <!-- Populated by main.js -->
+                    </div>
+                    <div class="chat-input-row">
+                        <div class="chat-input-wrapper">
+                            <input type="text" id="chat-input" placeholder="Transmit a message..." autocomplete="off">
+                        </div>
+                        <button class="btn-transmit" onclick="sendChatMessage()">Transmit</button>
+                    </div>
+                </div>
+            </div>
 
-/* Countdown */
-const timer=setInterval(()=>{
-const now=new Date().getTime();
-const distance=launchDate-now;
-if(distance>0){
-const d=Math.floor(distance/(1000*60*60*24));
-const h=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
-const m=Math.floor((distance%(1000*60*60))/(1000*60));
-const s=Math.floor((distance%(1000*60))/1000);
-document.getElementById("countdown").innerHTML=d+"d "+h+"h "+m+"m "+s+"s";
-}else{
-clearInterval(timer);
-document.getElementById("countdown").innerHTML="🔥 It's Live 🔥";
-}
-},1000);
+        </section>
 
-/* Password */
-function checkPass(){
-if(document.getElementById("passInput").value.toLowerCase()===correctPass){
-document.getElementById("passwordSection").style.display="none";
-document.getElementById("mainPlayer").style.display="block";
-audio.style.display="block";
-}else{
-document.getElementById("wrong").innerHTML="Wrong answer";
-}
-}
+    </main>
 
-/* Play */
-function togglePlay(){
-if(audio.paused){
-audio.play();
-playBtn.innerHTML="⏸ Pause";
-coverWrapper.classList.add("vibing");
-}else{
-audio.pause();
-playBtn.innerHTML="▶ Play";
-coverWrapper.classList.remove("vibing");
-}
-}
+    <!-- Singleton Audio Element -->
+    <audio id="audio-element"></audio>
 
-/* Progress */
-audio.addEventListener("timeupdate",()=>{
-progress.value=audio.currentTime;
-});
-progress.addEventListener("input",()=>{
-audio.currentTime=progress.value;
-});
-
-/* Extra Songs */
-function loadSong(src,btn){
-audio.src=src;
-audio.load();
-audio.play();
-coverWrapper.classList.add("vibing");
-document.querySelectorAll(".song-btn").forEach(b=>b.classList.remove("active"));
-btn.classList.add("active");
-}
-
-/* Chat */
-function sendMsg(){
-const input=document.getElementById("chatInput");
-if(input.value.trim()==="")return;
-const div=document.createElement("div");
-div.textContent=input.value;
-document.getElementById("chatBox").appendChild(div);
-input.value="";
-}
-</script>
-
+    <!-- Load Three.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>
