@@ -1,2 +1,2 @@
 # Final-protocal-1 
-This website is making for fun and didn't try to hurt any person the Character shown in was the paroday character    
+This website is making for fun and didn't try to hurt any person the Character shown in was the paroday character named Rohit was inspire by my friend school English Teacher and i am fairly say most of AI Generated in past i created full wbsite by my own hand but trying to make it more better i used AI and generally it was my experimental program for with fun learn programming and also i agree it was too buggy and unwanted thing and that happen by recreating this program by AI    
